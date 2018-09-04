@@ -1,10 +1,12 @@
 import {getBrandList} from '../../api/index';
-
+import {getIdList} from '../../api/index';
 let state = {
     letters: [],
     brand: {},
     brandWord:"",
     isshow:false,
+    brandId:"",
+    markList:""
 }
 
 let mutations = {
@@ -28,6 +30,10 @@ let mutations = {
     },
     showBrandword(state,payload){
         state.brandWord = payload
+    },
+    changeGetIdList(state,payload){
+        state.brandId = payload.id,
+        state.markList = payload.list
     }
 }
 
@@ -42,6 +48,17 @@ let actions = {
                 alert(body.msg);
             }
         })
+    },
+    getIdList({commit,state},payload){
+      if(payload!=state.brandId){
+        getIdList(payload).then(res=>{
+            console.log("res....",res)
+            commit("changeGetIdList",{
+                id:payload,
+                list:res.data
+            })
+        })
+      }
     }
 } 
 

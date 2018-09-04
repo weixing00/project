@@ -12,7 +12,13 @@ const sendRequest = (url, method = 'GET', body = {})=>{
     }
     return fetch(url, params).then(res=>res.json());
 }
+
 // 获取车辆列表
 export let getBrandList = ()=>{
     return sendRequest('https://baojia.chelun.com/v2-car-getMasterBrandList.html');
 }
+
+export let getIdList = (id)=>{
+     return sendRequest("https://baojia.chelun.com/v2-car-getMakeListByMasterBrandId.html?MasterID="+id)
+}
+

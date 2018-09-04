@@ -5,7 +5,7 @@
                 <div v-for="(item, index) in brand" :key="index">
                     <ul>
                         <p :id="index">{{index}}</p>
-                        <li v-for="(value, key) in item" :key="key">
+                        <li v-for="(value, key) in item" :key="key" @click="getIdList(value.MasterID)">
                             <img :src="value.CoverPhoto">
                             <span>{{value.Name}}</span>    
                         </li>
@@ -21,12 +21,13 @@
                @touchend="touchEnd">
             <span v-for="(item, index) in letters" :key="index">{{item}}</span>    
         </aside>
-       
+       <MarkList></MarkList>
     </div>
 </template>
 
 <script>
     import {mapState, mapActions, mapMutations} from 'vuex';
+    import MarkList from './common/markList'
     export default {
         computed: {
             ...mapState({
@@ -36,16 +37,22 @@
                 isshow:state=>state.index.isshow
             })
         },
+        components:{
+            MarkList
+        },
         methods: {
             ...mapActions({
                 initState: 'index/initState',
+                getIdList:'index/getIdList'
             }),
             ...mapMutations({
                 showSection:"index/showSection",
                 showBrandword:"index/showBrandword"
             }),
-            touchStart(){
-                this.showSection(true)
+            touchStart(e){
+                this.showSection(true);
+                let letter = e.target.innerHTML
+                this.showBrandword(letter)
             },
             touchMove(e){       
                 let pageY = e.touches[0].pageY;
